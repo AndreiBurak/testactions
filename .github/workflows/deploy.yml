@@ -20,7 +20,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $registry_url/s63-back:latest --tag s63-back:${{ env.version_number }} 
     - name: Login to Azure Registry
-      run: echo ${{ secrets.ACR_PASSWORD }} | docker login --username ${{ vars.ACR_USERNAME }} --password  $registry_url
+      run: echo ${{ secrets.ACR_PASSWORD }} | docker login --username ${{ vars.ACR_USERNAME }} --password-stdin  $registry_url
     - name: Pull the Docker image
       run: |
         docker image ls
