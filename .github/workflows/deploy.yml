@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag s63-back:latest --tag s63-back:${{ env.version_number }} 
+      run: docker build . --file Dockerfile --tag $registry_url/s63-back:latest --tag $registry_url/s63-back:${{ env.version_number }} 
     - name: Login to Azure Registry
       run: docker login --username ${{ vars.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }} $registry_url
     - name: Pull the Docker image
