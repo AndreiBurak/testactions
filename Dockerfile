@@ -8,7 +8,7 @@ ENV MONGODB_PASSWORD eI3R3UfNlJgWJe17
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm install
 
