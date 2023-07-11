@@ -22,5 +22,7 @@ jobs:
     - name: Login to Azure Registry
       run: docker login --username ${{ vars.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }} $registry_url
     - name: Pull the Docker image
-      run: docker image push --all-tags  
+      run: |
+        docker image ls
+        docker image push --all-tags $registry_url/s63-back
       
