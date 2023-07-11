@@ -20,7 +20,7 @@ jobs:
     
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag $registry_url/s63-back:latest --tag s63-back:${{ env.version_number }} 
+        docker build . --file Dockerfile --tag $registry_url/s63-back:latest --tag $registry_url/s63-back:${{ env.version_number }} 
     
     - name: Login to Azure Registry
       run: |
