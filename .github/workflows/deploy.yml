@@ -20,7 +20,7 @@ jobs:
     - name: Build the Docker image
       run: docker build --file Dockerfile --tag 'latest' --tag ${{ env.version_number }} .
     - name: Login to Azure Registry
-      run: docker login --username  --password $registry_url
+      run: docker login --username ${{ vars.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }} $registry_url
     - name: Pull the Docker image
       run: docker pull --all-tags  
       
