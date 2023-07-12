@@ -38,9 +38,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      CA_APP_NAME: ca-"$app_name"
+      CA_APP_NAME: ca-'$app_name'
     steps:
        - run: |
           echo "Version Number: $version_number"
-          echo "CA_APP_NAME: $CA_APP_NAME"
+          echo "CA_APP_NAME: ca-$app_name"
+          echo "CA_APP_NAME: "
           echo "IMAGE: $registry_url/$app_name:$version_number"
