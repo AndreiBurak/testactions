@@ -38,7 +38,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      CA_APP_NAME: ca-$app_name
+      CA_APP_NAME: ca-"$app_name"
     steps:
        - run: |
           echo "Version Number: $version_number"
