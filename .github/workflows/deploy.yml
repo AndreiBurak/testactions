@@ -12,24 +12,35 @@ on:
 env:
   version_number: ${{ vars.MAJOR_VERSION }}.${{ vars.MINOR_VERSION }}.${{ github.run_number}}
   registry_url: crs63dev100.azurecr.io
+  app_name: dsgkjl213
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     
-    - name: Build the Docker image
-      run: |
-        docker build . --file Dockerfile --tag $registry_url/s63-back:latest --tag $registry_url/s63-back:${{ env.version_number }} 
+    # - name: Build the Docker image
+    #   run: |
+    #     docker build . --file Dockerfile --tag $registry_url/s63-back:latest --tag $registry_url/s63-back:${{ env.version_number }} 
     
-    - name: Login to Azure Registry
-      run: |
-        echo ${{ secrets.ACR_PASSWORD }} | docker login --username ${{ vars.ACR_USERNAME }} --password-stdin  $registry_url
+    # - name: Login to Azure Registry
+    #   run: |
+    #     echo ${{ secrets.ACR_PASSWORD }} | docker login --username ${{ vars.ACR_USERNAME }} --password-stdin  $registry_url
     
-    - name: Pull the Docker image
-      run: |
-        docker image push --all-tags $registry_url/s63-back
-    - name: Logout
-      run: |
-        docker logout
+    # - name: Pull the Docker image
+    #   run: |
+    #     docker image push --all-tags $registry_url/s63-back
+    # - name: Logout
+    #   run: |
+    #     docker logout
       
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      CA_APP_NAME: ca-$app_name
+    steps:
+       - run: |
+          echo "Version Number: $version_number"
+          echo "CA_APP_NAME: $CA_APP_NAME"
+          echo "IMAGE: $registry_url/$app_name:$version_number"
