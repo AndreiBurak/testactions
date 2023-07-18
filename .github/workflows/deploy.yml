@@ -10,9 +10,8 @@ on:
       - opened
   workflow_dispatch:
 env:
-  version_number: ${{ vars.MAJOR_VERSION }}.${{ vars.MINOR_VERSION }}.${{ github.run_number}}
-  registry_url: crs63dev100.azurecr.io
-  app_name: dsgkjl213
+  CACHE_KEY: deps-node-modules
+  NODE_VER: 18.16.1
 jobs:
   build:
     runs-on: ubuntu-latest
