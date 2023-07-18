@@ -19,29 +19,42 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    # - name: Build the Docker image
-    #   run: |
-    #     docker build . --file Dockerfile --tag $registry_url/s63-back:latest --tag $registry_url/s63-back:${{ env.version_number }} 
-    
-    # - name: Login to Azure Registry
-    #   run: |
-    #     echo ${{ secrets.ACR_PASSWORD }} | docker login --username ${{ vars.ACR_USERNAME }} --password-stdin  $registry_url
-    
-    # - name: Pull the Docker image
-    #   run: |
-    #     docker image push --all-tags $registry_url/s63-back
-    # - name: Logout
-    #   run: |
-    #     docker logout
-      
+    - name: Get Code
+      uses: actions/checkout@v3
+    - name: Use a Node.js version  ${{env.NODE_VER }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{env.NODE_VER }}
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      run: npm ci
+    - name: Lint code
+      run: npm run lint
+    - name: Test code
+      run: npm run test
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      CA_APP_NAME: ca-'$app_name'
     steps:
-       - run: |
-          echo "Version Number: $version_number"
-          echo "CA_APP_NAME: ca-$app_name"
-          echo "CA_APP_NAME: "
-          echo "IMAGE: $registry_url/$app_name:$version_number"
+    - name: Get Code
+      uses: actions/checkout@v3
+    - name: Use a Node.js version  ${{env.NODE_VER }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{env.NODE_VER }}  
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build website
+      run: npm run build
