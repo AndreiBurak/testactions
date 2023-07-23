@@ -1,5 +1,5 @@
-import MainContent from './components/MainContent';
-import logo from './assets/images/logo.png';
+import MainContent from './src/components/MainContent';
+import logo from './src/assets/images/logo.png';
 
 function App() {
   return (
