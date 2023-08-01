@@ -33,7 +33,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test code
+        id: test
         run: npm run test
+      - name: Get context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(steps.test.outputs) }}
+        run: echo "$GITHUB_CONTEXT"
+        
       - name: Upload test report
         uses: actions/upload-artifact@v3
         with:
