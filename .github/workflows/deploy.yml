@@ -37,7 +37,7 @@ jobs:
         run: npm run test
       - name: Get context
         env:
-          GITHUB_CONTEXT: ${{ toJSON(steps.test.outputs) }}
+          GITHUB_CONTEXT: ${{ toJSON(steps.test) }}
         run: echo "$GITHUB_CONTEXT"
         
       - name: Upload test report
